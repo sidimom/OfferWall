@@ -13,6 +13,7 @@ public class MyPresenter implements RestCallback {
     private MainActivity view;
     private MyModel model;
     private Retrofit retrofit;
+    private List<String> notes;
 
     public void attachView(MainActivity activity){
         view = activity;
@@ -22,6 +23,9 @@ public class MyPresenter implements RestCallback {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         model = new MyModel(retrofit);
+
+        model.getAllNotes(this);
+
     }
 
     public void detachView(){
@@ -31,13 +35,20 @@ public class MyPresenter implements RestCallback {
     }
 
     @Override
-    public void onAllNotesAreReceived(List<String> notes) {
-
+    public void onAllNotesAreReceived(List<String> listNotes) {
+        /*notes = listNotes;
+        if (notes == null
+            | notes.size() == 0){
+            view.showToast("List is empty!");
+        }else{
+            model.getNoteById(this, Integer.parseInt(notes.get(0)));
+        }*/
+        view.showToast("List is received. Size = " + listNotes.size());
     }
 
     @Override
     public void onNoteIsReceived(String note) {
-
+        view.showToast(note);
     }
 
     @Override
